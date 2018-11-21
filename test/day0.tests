@@ -1,0 +1,5 @@
+# this one fails
+! one
+
+# this one succeeds
+2 two three
