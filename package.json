@@ -2,7 +2,6 @@
   "name": "AdventOfCode2018",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "NODE_NO_WARNINGS=1 node test/mocha.js",
     "grammar": "pegjs test/testFile.pegjs"

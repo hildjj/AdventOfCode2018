@@ -1,5 +1,4 @@
 'use strict'
-/* eslint-env node, mocha */
 
 const assert = require('assert')
 const fs = require('fs').promises
@@ -19,15 +18,20 @@ function addTest (suite, lt, js) {
       return
     }
     assert.notStrictEqual(lt.expected, EXCEPTION)
-    switch (typeof res) {
+    const tres = typeof res
+    switch (tres) {
       case 'string':
         assert.strictEqual(res, lt.expected)
         break
       case 'number':
         assert.strictEqual(res.toString(), lt.expected)
         break
+      case 'object':
+        const expected = JSON.parse(lt.expected)
+        assert.deepStrictEqual(res, expected)
+        break
       default:
-        throw new Error('Unknown result type') // YAGNI
+        throw new Error(`Unknown result type: ${tres}`) // YAGNI
     }
   }))
 }

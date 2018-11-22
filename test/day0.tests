@@ -2,4 +2,4 @@
 ! one
 
 # this one succeeds
-2 two three
+2 two three "foo\"bar"
