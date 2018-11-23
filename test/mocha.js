@@ -18,20 +18,11 @@ function addTest (suite, lt, js) {
       return
     }
     assert.notStrictEqual(lt.expected, EXCEPTION)
-    const tres = typeof res
-    switch (tres) {
-      case 'string':
-        assert.strictEqual(res, lt.expected)
-        break
-      case 'number':
-        assert.strictEqual(res.toString(), lt.expected)
-        break
-      case 'object':
-        const expected = JSON.parse(lt.expected)
-        assert.deepStrictEqual(res, expected)
-        break
-      default:
-        throw new Error(`Unknown result type: ${tres}`) // YAGNI
+    if (typeof res === 'string') {
+      assert.strictEqual(res, lt.expected)
+    } else {
+      const expected = JSON.parse(lt.expected)
+      assert.deepStrictEqual(res, expected)
     }
   }))
 }
@@ -52,16 +43,17 @@ function addTest (suite, lt, js) {
     }
 
     const suite = Mocha.Suite.create(mocha.suite, f)
+    const contents = await fs.readFile(path.join(__dirname, f), 'utf8')
+    const parsed = parser.parse(contents, { EXCEPTION })
 
-    const jsFile = path.resolve(__dirname,
-      f.replace(/([^./]*)\.tests?$/, '../$1.js'))
+    const jsFile = parsed.script
+      ? path.resolve(__dirname, parsed.script)
+      : path.resolve(__dirname, f.replace(/([^./]*)\.tests?$/, '../$1.js'))
     const js = require(jsFile)
     suite.addTest(new Mocha.Test('has JS', () => {
       assert.strictEqual(typeof js, 'function')
     }))
-    const contents = await fs.readFile(path.join(__dirname, f), 'utf8')
-    const parsedTests = parser.parse(contents, { EXCEPTION })
-    for (const pt of parsedTests) {
+    for (const pt of parsed.tests) {
       addTest(suite, pt, js)
     }
   }

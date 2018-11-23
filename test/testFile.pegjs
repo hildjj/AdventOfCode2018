@@ -5,7 +5,13 @@
   }
 }
 
-lines
+start
+  = script:script? tests:tests { return { script, tests} }
+
+script
+  = '#!' WS file:chunk { return file }
+
+tests
   = head:(WS h:line { return h }) tail:([ \t]* '\n' l:line {return l})* {
     return list(head, tail).filter(t => t)
   }
