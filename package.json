@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "NODE_NO_WARNINGS=1 node test/mocha.js",
+    "test": "unexpectedly test",
     "grammar": "pegjs test/testFile.pegjs"
   },
   "keywords": [],
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "license": "MPL-2.0",
   "devDependencies": {
-    "mocha": "^5.2.0",
-    "pegjs": "^0.10.0"
+    "pegjs": "^0.10.0",
+    "unexpectedly": "0.0.1"
   },
   "engines": {
     "node": ">=10"
