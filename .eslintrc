@@ -1,4 +1,13 @@
 {
-  "extends": "standard"
+  "extends": "standard",
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+    "__expected": true,
+    "__line": true,
+    "__column": true
+  }
 }
 
