@@ -1,45 +1,29 @@
 'use strict'
 
 function sum (a) {
-  return a.reduce((last, i) => last + i, 0)
+  return a.reduce((last, i) => i ? last + i : last, 0)
 }
 
-class Node {
-  constructor (data) {
-    this.data = data
-    this.children = []
-    this.meta = []
-    this.length = 2
-
-    const nchild = data[0]
-    const nmeta = data[1]
-    for (let i = 0; i < nchild; i++) {
-      const n = new Node(data.slice(this.length))
-      this.children.push(n)
-      this.length += n.length
-    }
-    for (let i = 0; i < nmeta; i++) {
-      this.meta.push(data[this.length++])
-    }
-  }
-  reduce (f, last) {
-    last = f(last, this)
-    for (const c of this.children) {
-      last = c.reduce(f, last)
-    }
-    return last
-  }
-  value () {
-    if (this.children.length === 0) {
-      return sum(this.meta)
-    }
-    const ch = this.meta.map(i => this.children[i - 1]).filter(c => c)
-    return sum(ch.map(c => c.value()))
-  }
+function val (inp) {
+  const [nchild, nmeta] = inp
+  let len = 2
+  let total = 0
+  const children = Array.from({ length: nchild }, () => {
+    const [cl, ct, cv] = val(inp.slice(len))
+    len += cl
+    total += ct
+    return cv
+  })
+  const meta = inp.slice(len, len += nmeta)
+  const sumMeta = sum(meta)
+  return [
+    len,
+    total + sumMeta,
+    !nchild ? sumMeta : sum(meta.map(i => children[i - 1]))
+  ]
 }
 
 module.exports = (inp) => {
-  const buf = Buffer.from(inp.split(' '))
-  const n = new Node(buf)
-  return [n.reduce((last, n) => last + sum(n.meta), 0), n.value()]
+  const c = inp.split(' ').map(n => +n)
+  return val(c).slice(1)
 }
