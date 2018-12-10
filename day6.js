@@ -50,7 +50,7 @@ module.exports = (inp) => {
     return c
   })
 
-  console.log('TOTAL', Object.values(areas).reduce((l,v) => l + v, 0))
+  console.log('TOTAL', Object.values(areas).reduce((l, v) => l + v, 0))
 
   // anything that touches the edge is infinite
   pts.forEach((v, i, j) => {

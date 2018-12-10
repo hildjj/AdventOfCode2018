@@ -67,7 +67,7 @@ function calc (reqs, bias, workers, clamp) {
     assign(elves, possible, bias, clamp)
     elves.forEach(e => e[0]--)
     const done = elves.filter(e => e[0] === 0)
-    done.sort((a, b) => a[0] - b[0])
+    done.sort((a, b) => a[1] - b[1])
     ret += done.map(e => {
       clean(all, e[1])
       return e[1]
