@@ -11,14 +11,14 @@
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "license": "MPL-2.0",
   "devDependencies": {
-    "eslint": "^5.9.0",
+    "eslint": "^5.10.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "pegjs": "^0.10.0",
-    "unexpectedly": "0.0.3"
+    "unexpectedly": "0.0.4"
   },
   "engines": {
     "node": ">=10"
