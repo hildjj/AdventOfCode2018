@@ -6,8 +6,18 @@ class Matrix {
     this.h = h
 
     this.vals = Array.from({ length: w },
-      () => Array.from({ length: h },
-        () => defaultVal))
+      (_, i) => Array.from({ length: h },
+        (_, j) => {
+          return (typeof defaultVal === 'function') ? defaultVal(i, j) : defaultVal
+        }))
+  }
+
+  toString (joiner = ' ') {
+    let res = ''
+    for (let j = 0; j < this.h; j++) {
+      res += this.row(j).join(joiner) + '\n'
+    }
+    return res
   }
 
   get (x, y, defaultVal = null) {
@@ -51,6 +61,10 @@ class Matrix {
 
   col (num) {
     return this.vals[num]
+  }
+
+  transpose () {
+    return new Matrix(this.h, this.w, (i, j) => this.vals[j][i])
   }
 }
 
